@@ -1,0 +1,29 @@
+name: 🔨🧪 Build & Test
+
+permissions: write-all
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    branches:
+      - 'main'
+    paths-ignore:
+      - '**.md'
+      - 'doc/**'
+      - '.git/'
+      - '.vscode/'
+
+jobs:
+  testAndCoverage:
+    name: 🧪 Test
+    if: github.event.pull_request.draft == false
+    uses: ./.github/workflows/_test_with_coverage.yml
+    secrets: inherit
