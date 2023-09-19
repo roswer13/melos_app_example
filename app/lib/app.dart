@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String env;
+
+  const MyApp({
+    required this.env,
+    super.key,
+  });
 
   // This widget is the root of your application.
   @override
