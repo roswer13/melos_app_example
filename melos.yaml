@@ -1,8 +1,7 @@
-name: flutter_ci_cd_demo
+name: gamemark
 
 packages:
-  - app
-  - design_system
+  - packages/*
 
 scripts:
   ###############################################
@@ -101,7 +100,6 @@ scripts:
   quality:dcm-checks:all:
     run: melos run --no-select quality:dcm-checks
     description: Run Dart Code Metrics (DCM) extended checks on all packages
-
 
   ###############################################
   ##              TEST COMMANDS                ##
@@ -205,5 +203,5 @@ scripts:
       scope: "flutter_ci_cd_demo"
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: ">=2.19.0 <3.0.0"
   flutter: ">=3.7.0 <4.0.0"
