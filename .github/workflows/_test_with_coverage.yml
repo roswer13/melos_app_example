@@ -40,7 +40,7 @@ jobs:
         uses: schneegans/dynamic-badges-action@v1.6.0
         with:
           auth: ${{ secrets.BADGE_GIST_TOKEN }}
-          gistID: "2e904f1d8a9ef0e1e1458de1e7fcfba6"
+          gistID: "7b1e5ip293z169j96e56e23pey"
           filename: "passing-tests-badge.json"
           label: 'Tests'
           message: '${{ steps.compute_test_results.outputs.passed }} passed, ${{ steps.compute_test_results.outputs.failed }} failed'
