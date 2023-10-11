@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "name": "gamemark",
+            "cwd": "packages/gamemark",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_dev.dart"
+        },
+    ]
+}
