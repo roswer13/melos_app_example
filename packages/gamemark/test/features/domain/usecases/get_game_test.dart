@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gamemark/features/domain/domain.dart';
+import 'package:gamemark/features/features.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../helpers/test_helper.mocks.dart';
@@ -14,7 +14,7 @@ void main() {
     usecase = GetGame(mockGameRepository);
   });
 
-  final game = Game(name: 'Test', creationDate: DateTime(2020, 01, 01));
+  final game = Game(id: 1, name: 'Test', creationDate: DateTime(2020, 01, 01));
 
   test(
     'should get game from the repository',
