@@ -56,3 +56,31 @@ class MockGameRepository extends _i1.Mock implements _i3.GameRepository {
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i3.Game>>);
 }
+
+/// A class which mocks [UserGameRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUserGameRepository extends _i1.Mock
+    implements _i3.UserGameRepository {
+  MockUserGameRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i3.UserGame>> getCurrentUserGame(
+          int? gameId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getCurrentUserGame,
+          [gameId],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i3.UserGame>>.value(
+            _FakeEither_0<_i5.Failure, _i3.UserGame>(
+          this,
+          Invocation.method(
+            #getCurrentUserGame,
+            [gameId],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i3.UserGame>>);
+}
