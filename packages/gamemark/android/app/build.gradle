@@ -22,6 +22,24 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+// Note: we need to put dummy keystore so that compiler does not complain
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists() && !keystorePropertiesFile.isDirectory()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} else {
+    keystoreProperties['uatStoreFile'] = 'dummy.keystore';
+    keystoreProperties['prodStoreFile'] = 'dummy.keystore';
+}
+
+if (keystoreProperties['uatStoreFile'] == null) {
+    keystoreProperties['uatStoreFile'] = 'dummy.keystore'
+}
+
+if (keystoreProperties['prodStoreFile'] == null) {
+    keystoreProperties['prodStoreFile'] = 'dummy.keystore'
+}
+
 android {
     namespace "com.example.gamemark"
     compileSdkVersion flutter.compileSdkVersion
@@ -51,11 +69,42 @@ android {
         versionName flutterVersionName
     }
 
-    buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+    flavorDimensions "flavor-type"
+
+    signingConfigs {
+        uatRelease {
+            storeFile file(keystoreProperties['uatStoreFile'])
+            storePassword keystoreProperties['uatStorePassword']
+            keyAlias keystoreProperties['uatKeyAlias']
+            keyPassword keystoreProperties['uatKeyPassword']
+        }
+
+        prodRelease {
+            storeFile file(keystoreProperties['prodStoreFile'])
+            storePassword keystoreProperties['prodStorePassword']
+            keyAlias keystoreProperties['prodKeyAlias']
+            keyPassword keystoreProperties['prodKeyPassword']
+        }
+    }
+
+    productFlavors {
+        dev {
+            dimension "flavor-type"
+            resValue "string", "app_name", "CI/CD Demo - Dev"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+        }
+        uat {
+            dimension "flavor-type"
+            resValue "string", "app_name", "CI/CD Demo - UAT"
+            applicationIdSuffix ".uat"
+            versionNameSuffix "-uat"
+            signingConfig signingConfigs.uatRelease
+        }
+        prod {
+            dimension "flavor-type"
+            resValue "string", "app_name", "CI/CD Demo"
+            signingConfig signingConfigs.prodRelease
         }
     }
 }
