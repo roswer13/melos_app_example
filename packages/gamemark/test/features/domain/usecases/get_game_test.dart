@@ -14,7 +14,11 @@ void main() {
     usecase = GetGame(mockGameRepository);
   });
 
-  final game = Game(id: 1, name: 'Test', creationDate: DateTime(2020, 01, 01));
+  final game = Game(
+    id: 1,
+    name: 'Test',
+    creationDatetime: DateTime(2020, 01, 01).toString(),
+  );
 
   test(
     'should get game from the repository',

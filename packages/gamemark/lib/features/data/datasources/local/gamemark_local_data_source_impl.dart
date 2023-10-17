@@ -39,9 +39,34 @@ class GamemarkLocalDataSourceImpl implements GamemarkLocalDataSource {
   }
 
   @override
-  Future<GameModel> getGames() {
-    // TODO: implement getGames
-    throw UnimplementedError();
+  Future<List<GameModel>> getGames() async {
+    try {
+      final db = await database;
+      final map = await db.query(DbConstants.tableGameName);
+
+      return map.isNotEmpty
+          ? map.map((game) => GameModel.fromJson(game)).toList()
+          : throw CacheException();
+    } catch (e) {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<int> insertGame(GameModel game) async {
+    try {
+      final db = await database;
+
+      return db.transaction((txn) async {
+        return await txn.insert(
+          DbConstants.tableGameName,
+          game.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      });
+    } catch (e) {
+      throw CacheException();
+    }
   }
 
   Future close() async => _database?.close();

@@ -1,5 +1,6 @@
 import 'package:gamemark/features/features.dart';
 
 abstract class GamemarkLocalDataSource {
-  Future<GameModel> getGames();
+  Future<List<GameModel>> getGames();
+  Future<int> insertGame(GameModel game);
 }

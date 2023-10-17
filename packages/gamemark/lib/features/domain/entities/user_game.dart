@@ -6,7 +6,7 @@ class UserGame extends Equatable {
   final String name;
   final String? note;
   final int points;
-  final DateTime creationDate;
+  final String creationDate;
 
   const UserGame({
     required this.game,
