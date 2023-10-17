@@ -14,8 +14,8 @@ void main() {
     usecase = GetUserGame(mockUserGameRepository);
   });
 
-  final creationDatetime = DateTime(2020, 01, 01);
-  final game = Game(id: 1, name: 'Test', creationDate: creationDatetime);
+  final creationDatetime = DateTime(2020, 01, 01).toString();
+  final game = Game(id: 1, name: 'Test', creationDatetime: creationDatetime);
   final userGame = UserGame(
     game: game,
     name: 'User test',
@@ -30,7 +30,7 @@ void main() {
       when(mockUserGameRepository.getCurrentUserGame(game.id))
           .thenAnswer((_) async => Right(userGame));
       // act
-      final result = await usecase.execute(game.id);
+      final result = await usecase.execute(game.id!);
       // assert
       expect(result, Right(userGame));
       verify(mockUserGameRepository.getCurrentUserGame(game.id));

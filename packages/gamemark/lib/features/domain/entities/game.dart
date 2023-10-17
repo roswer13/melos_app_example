@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
 
 class Game extends Equatable {
-  final int id;
-  final String? name;
-  final DateTime creationDate;
+  final int? id;
+  final String name;
+  final String creationDatetime;
 
   const Game({
-    required this.id,
-    this.name,
-    required this.creationDate,
+    this.id,
+    required this.name,
+    required this.creationDatetime,
   });
 
   @override
-  List<Object?> get props => [name, creationDate];
+  List<Object?> get props => [id, name, creationDatetime];
 }

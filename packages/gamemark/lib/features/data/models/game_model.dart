@@ -2,24 +2,28 @@ import 'package:gamemark/features/features.dart';
 
 class GameModel extends Game {
   GameModel({
-    required super.id,
-    String? name,
-    required super.creationDate,
-  });
+    int? id,
+    required String name,
+    required String creationDatetime,
+  }) : super(
+          id: id,
+          name: name,
+          creationDatetime: creationDatetime,
+        );
 
   factory GameModel.fromJson(Map<String, dynamic> json) {
     return GameModel(
-      id: json['id'],
+      id: json['id'] ?? 0,
       name: json['name'],
-      creationDate: json['creationDate'],
+      creationDatetime: json['creationDatetime'] ?? DateTime.now().toString(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': super.id,
-      'name': super.name,
-      'creationDate': super.creationDate,
+      'id': id,
+      'name': name,
+      'creationDatetime': creationDatetime,
     };
   }
 }
