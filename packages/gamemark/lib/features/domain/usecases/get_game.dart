@@ -7,7 +7,7 @@ class GetGame {
 
   GetGame(this.repository);
 
-  Future<Either<Failure, Game>> execute() {
+  Future<Either<Failure, List<Game>>> execute() {
     return repository.getGames();
   }
 }

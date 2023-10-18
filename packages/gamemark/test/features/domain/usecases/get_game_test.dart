@@ -20,15 +20,18 @@ void main() {
     creationDatetime: DateTime(2020, 01, 01).toString(),
   );
 
+  final tGameList = [game];
+
   test(
     'should get game from the repository',
     () async {
       // arrange
-      when(mockGameRepository.getGames()).thenAnswer((_) async => Right(game));
+      when(mockGameRepository.getGames())
+          .thenAnswer((_) async => Right(tGameList));
       // act
       final result = await usecase.execute();
       // assert
-      expect(result, Right(game));
+      expect(result, equals(Right(tGameList)));
       verify(mockGameRepository.getGames());
       verifyNoMoreInteractions(mockGameRepository);
     },
