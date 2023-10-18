@@ -3,5 +3,5 @@ import 'package:gamemark/core/error/error.dart';
 import 'package:gamemark/features/domain/domain.dart';
 
 abstract class GameRepository {
-  Future<Either<Failure, Game>> getGames();
+  Future<Either<Failure, List<Game>>> getGames();
 }
