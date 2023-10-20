@@ -5,12 +5,11 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
 
-import 'package:dartz/dartz.dart' as _i2;
-import 'package:gamemark/core/error/error.dart' as _i6;
-import 'package:gamemark/features/domain/domain.dart' as _i4;
-import 'package:gamemark/features/features.dart' as _i7;
+import 'package:dartz/dartz.dart' as _i3;
+import 'package:gamemark/core/core.dart' as _i6;
+import 'package:gamemark/features/features.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:sqflite/sqflite.dart' as _i3;
+import 'package:sqflite/sqflite.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -23,8 +22,8 @@ import 'package:sqflite/sqflite.dart' as _i3;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
-  _FakeEither_0(
+class _FakeDatabase_0 extends _i1.SmartFake implements _i2.Database {
+  _FakeDatabase_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -33,8 +32,8 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
         );
 }
 
-class _FakeDatabase_1 extends _i1.SmartFake implements _i3.Database {
-  _FakeDatabase_1(
+class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
+  _FakeEither_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -43,99 +42,27 @@ class _FakeDatabase_1 extends _i1.SmartFake implements _i3.Database {
         );
 }
 
-/// A class which mocks [GameRepository].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockGameRepository extends _i1.Mock implements _i4.GameRepository {
-  MockGameRepository() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i5.Future<_i2.Either<_i6.Failure, List<_i4.Game>>> getGames() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getGames,
-          [],
-        ),
-        returnValue: _i5.Future<_i2.Either<_i6.Failure, List<_i4.Game>>>.value(
-            _FakeEither_0<_i6.Failure, List<_i4.Game>>(
-          this,
-          Invocation.method(
-            #getGames,
-            [],
-          ),
-        )),
-      ) as _i5.Future<_i2.Either<_i6.Failure, List<_i4.Game>>>);
+class _FakeDatabaseHelper_2 extends _i1.SmartFake
+    implements _i4.DatabaseHelper {
+  _FakeDatabaseHelper_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
 }
 
-/// A class which mocks [UserGameRepository].
+/// A class which mocks [DatabaseHelper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserGameRepository extends _i1.Mock
-    implements _i4.UserGameRepository {
-  MockUserGameRepository() {
+class MockDatabaseHelper extends _i1.Mock implements _i4.DatabaseHelper {
+  MockDatabaseHelper() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i2.Either<_i6.Failure, _i4.UserGame>> getCurrentUserGame(
-          int? gameId) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getCurrentUserGame,
-          [gameId],
-        ),
-        returnValue: _i5.Future<_i2.Either<_i6.Failure, _i4.UserGame>>.value(
-            _FakeEither_0<_i6.Failure, _i4.UserGame>(
-          this,
-          Invocation.method(
-            #getCurrentUserGame,
-            [gameId],
-          ),
-        )),
-      ) as _i5.Future<_i2.Either<_i6.Failure, _i4.UserGame>>);
-}
-
-/// A class which mocks [GamemarkLocalDataSource].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockGamemarkLocalDataSource extends _i1.Mock
-    implements _i7.GamemarkLocalDataSource {
-  MockGamemarkLocalDataSource() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i5.Future<List<_i7.GameModel>> getGames() => (super.noSuchMethod(
-        Invocation.method(
-          #getGames,
-          [],
-        ),
-        returnValue: _i5.Future<List<_i7.GameModel>>.value(<_i7.GameModel>[]),
-      ) as _i5.Future<List<_i7.GameModel>>);
-
-  @override
-  _i5.Future<int> insertGame(_i7.GameModel? game) => (super.noSuchMethod(
-        Invocation.method(
-          #insertGame,
-          [game],
-        ),
-        returnValue: _i5.Future<int>.value(0),
-      ) as _i5.Future<int>);
-}
-
-/// A class which mocks [GamemarkLocalDataSourceImpl].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockGamemarkLocalDataSourceImpl extends _i1.Mock
-    implements _i7.GamemarkLocalDataSourceImpl {
-  MockGamemarkLocalDataSourceImpl() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  set db(_i3.Database? value) => super.noSuchMethod(
+  set db(_i2.Database? value) => super.noSuchMethod(
         Invocation.setter(
           #db,
           value,
@@ -144,25 +71,26 @@ class MockGamemarkLocalDataSourceImpl extends _i1.Mock
       );
 
   @override
-  _i5.Future<_i3.Database> get database => (super.noSuchMethod(
+  _i5.Future<_i2.Database> get database => (super.noSuchMethod(
         Invocation.getter(#database),
-        returnValue: _i5.Future<_i3.Database>.value(_FakeDatabase_1(
+        returnValue: _i5.Future<_i2.Database>.value(_FakeDatabase_0(
           this,
           Invocation.getter(#database),
         )),
-      ) as _i5.Future<_i3.Database>);
+      ) as _i5.Future<_i2.Database>);
 
   @override
-  _i5.Future<List<_i7.GameModel>> getGames() => (super.noSuchMethod(
+  _i5.Future<List<Map<String, dynamic>>> getGames() => (super.noSuchMethod(
         Invocation.method(
           #getGames,
           [],
         ),
-        returnValue: _i5.Future<List<_i7.GameModel>>.value(<_i7.GameModel>[]),
-      ) as _i5.Future<List<_i7.GameModel>>);
+        returnValue: _i5.Future<List<Map<String, dynamic>>>.value(
+            <Map<String, dynamic>>[]),
+      ) as _i5.Future<List<Map<String, dynamic>>>);
 
   @override
-  _i5.Future<int> insertGame(_i7.GameModel? game) => (super.noSuchMethod(
+  _i5.Future<int> insertGame(_i4.GameModel? game) => (super.noSuchMethod(
         Invocation.method(
           #insertGame,
           [game],
@@ -178,4 +106,140 @@ class MockGamemarkLocalDataSourceImpl extends _i1.Mock
         ),
         returnValue: _i5.Future<dynamic>.value(),
       ) as _i5.Future<dynamic>);
+}
+
+/// A class which mocks [GameRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGameRepository extends _i1.Mock implements _i4.GameRepository {
+  MockGameRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, List<_i4.Game>>> getGames() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getGames,
+          [],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, List<_i4.Game>>>.value(
+            _FakeEither_1<_i6.Failure, List<_i4.Game>>(
+          this,
+          Invocation.method(
+            #getGames,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, List<_i4.Game>>>);
+
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, int>> insertGame(_i4.Game? game) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #insertGame,
+          [game],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, int>>.value(
+            _FakeEither_1<_i6.Failure, int>(
+          this,
+          Invocation.method(
+            #insertGame,
+            [game],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, int>>);
+}
+
+/// A class which mocks [UserGameRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUserGameRepository extends _i1.Mock
+    implements _i4.UserGameRepository {
+  MockUserGameRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, _i4.UserGame>> getCurrentUserGame(
+          int? gameId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getCurrentUserGame,
+          [gameId],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i4.UserGame>>.value(
+            _FakeEither_1<_i6.Failure, _i4.UserGame>(
+          this,
+          Invocation.method(
+            #getCurrentUserGame,
+            [gameId],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i4.UserGame>>);
+}
+
+/// A class which mocks [GamemarkLocalDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGamemarkLocalDataSource extends _i1.Mock
+    implements _i4.GamemarkLocalDataSource {
+  MockGamemarkLocalDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<List<_i4.GameModel>> getGames() => (super.noSuchMethod(
+        Invocation.method(
+          #getGames,
+          [],
+        ),
+        returnValue: _i5.Future<List<_i4.GameModel>>.value(<_i4.GameModel>[]),
+      ) as _i5.Future<List<_i4.GameModel>>);
+
+  @override
+  _i5.Future<int> insertGame(_i4.GameModel? game) => (super.noSuchMethod(
+        Invocation.method(
+          #insertGame,
+          [game],
+        ),
+        returnValue: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
+}
+
+/// A class which mocks [GamemarkLocalDataSourceImpl].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGamemarkLocalDataSourceImpl extends _i1.Mock
+    implements _i4.GamemarkLocalDataSourceImpl {
+  MockGamemarkLocalDataSourceImpl() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.DatabaseHelper get database => (super.noSuchMethod(
+        Invocation.getter(#database),
+        returnValue: _FakeDatabaseHelper_2(
+          this,
+          Invocation.getter(#database),
+        ),
+      ) as _i4.DatabaseHelper);
+
+  @override
+  _i5.Future<List<_i4.GameModel>> getGames() => (super.noSuchMethod(
+        Invocation.method(
+          #getGames,
+          [],
+        ),
+        returnValue: _i5.Future<List<_i4.GameModel>>.value(<_i4.GameModel>[]),
+      ) as _i5.Future<List<_i4.GameModel>>);
+
+  @override
+  _i5.Future<int> insertGame(_i4.GameModel? game) => (super.noSuchMethod(
+        Invocation.method(
+          #insertGame,
+          [game],
+        ),
+        returnValue: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
 }

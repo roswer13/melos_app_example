@@ -17,4 +17,13 @@ class GameRepositoryImpl implements GameRepository {
       return Left(CacheFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, int>> insertGame(Game game) async {
+    try {
+      return Right(await localDataSource.insertGame(game as GameModel));
+    } on CacheException {
+      return Left(CacheFailure());
+    }
+  }
 }

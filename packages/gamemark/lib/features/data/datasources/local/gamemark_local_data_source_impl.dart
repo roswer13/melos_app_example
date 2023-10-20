@@ -1,51 +1,18 @@
 import 'package:gamemark/core/core.dart';
 import 'package:gamemark/features/features.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 
 class GamemarkLocalDataSourceImpl implements GamemarkLocalDataSource {
-  static final GamemarkLocalDataSourceImpl _instance =
-      GamemarkLocalDataSourceImpl._();
+  final DatabaseHelper database;
 
-  factory GamemarkLocalDataSourceImpl() => _instance;
-
-  GamemarkLocalDataSourceImpl._() {
-    _initDatabase();
-  }
-
-  static Database? _database;
-
-  set db(Database? value) {
-    _database = value;
-  }
-
-  Future<Database> get database async {
-    _database ??= await _initDatabase();
-    return _database!;
-  }
-
-  Future<Database> _initDatabase() async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, DbConstants.databaseName);
-    return openDatabase(
-      path,
-      onCreate: _onCreate,
-      version: DbConstants.databaseVersion,
-    );
-  }
-
-  Future<void> _onCreate(Database db, int version) async {
-    return await db.execute(DbConstants.createTableQuery);
-  }
+  GamemarkLocalDataSourceImpl({required this.database});
 
   @override
   Future<List<GameModel>> getGames() async {
     try {
-      final db = await database;
-      final map = await db.query(DbConstants.tableGameName);
+      final games = await database.getGames();
 
-      return map.isNotEmpty
-          ? map.map((game) => GameModel.fromJson(game)).toList()
+      return games.isNotEmpty
+          ? games.map((game) => GameModel.fromJson(game)).toList()
           : throw CacheException();
     } catch (e) {
       throw CacheException();
@@ -55,19 +22,9 @@ class GamemarkLocalDataSourceImpl implements GamemarkLocalDataSource {
   @override
   Future<int> insertGame(GameModel game) async {
     try {
-      final db = await database;
-
-      return db.transaction((txn) async {
-        return await txn.insert(
-          DbConstants.tableGameName,
-          game.toJson(),
-          conflictAlgorithm: ConflictAlgorithm.replace,
-        );
-      });
+      return database.insertGame(game);
     } catch (e) {
       throw CacheException();
     }
   }
-
-  Future close() async => _database?.close();
 }

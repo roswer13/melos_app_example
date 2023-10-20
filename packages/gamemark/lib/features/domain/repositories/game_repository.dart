@@ -4,4 +4,6 @@ import 'package:gamemark/features/domain/domain.dart';
 
 abstract class GameRepository {
   Future<Either<Failure, List<Game>>> getGames();
+
+  Future<Either<Failure, int>> insertGame(Game game);
 }
