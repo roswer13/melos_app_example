@@ -2,102 +2,83 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:gamemark/core/core.dart';
 import 'package:gamemark/features/features.dart';
 import 'package:mockito/mockito.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../../../../helpers/test_helper.mocks.dart';
 
 void main() {
-  late Database database;
-  late MockGamemarkLocalDataSourceImpl localDataSource;
+  late MockDatabaseHelper mockDatabaseHelper;
+  late GamemarkLocalDataSourceImpl dataSource;
+  setUp(() async {
+    mockDatabaseHelper = MockDatabaseHelper();
+    dataSource = GamemarkLocalDataSourceImpl(database: mockDatabaseHelper);
+  });
 
-  final gameModel = GameModel(
-    name: 'Test name',
-    creationDatetime: DateTime.now().toString(),
-  );
-
-  final gameList = List.generate(10, (index) => gameModel);
-
-  setUpAll(() async {
-    sqfliteFfiInit();
-    database = await databaseFactoryFfi.openDatabase(
-      inMemoryDatabasePath,
-      options: OpenDatabaseOptions(
-        version: DbConstants.databaseVersion,
+  group('getGames', () {
+    final gameList = List.generate(
+      10,
+      (index) => GameModel(
+        id: index,
+        name: 'Game name $index',
+        creationDatetime: DateTime.now().toString(),
       ),
     );
-    await database.execute(DbConstants.createTableQuery);
-    localDataSource = MockGamemarkLocalDataSourceImpl();
-    localDataSource.db = database;
-  });
-
-  group('Database ...', () {
-    test('Should return database version', () async {
-      //arrange
-      const dbVersion = DbConstants.databaseVersion;
-      //act
-      final result = await database.getVersion();
-      //assert
-      expect(result, dbVersion);
-    });
-
-    test('Should add successfully a Game to database', () async {
-      //arrange
-      final tSerializedGame = gameModel.toJson();
-      //act - insert method in sql return 1 if success or 0 if not
-      final result =
-          await database.insert(DbConstants.tableGameName, tSerializedGame);
-      //assert
-      expect(result, equals(1));
-    });
 
     test(
-        'Should fail if trying to insert the same game more than once into the database',
-        () async {
-      //arrange
-      final tSerializedGame = gameModel.toJson();
-      //act - insert method in sql return 1 if success or 0 if not
-      await database.insert(DbConstants.tableGameName, tSerializedGame);
-      final result = await database.insert(
-        DbConstants.tableGameName,
-        tSerializedGame,
-      );
-      //assert
-      expect(result, isNot(1));
-    });
-
-    test('Should close database', () async {
-      //arrange
-      //act
-      await database.close();
-      //assert
-      expect(database.isOpen, isFalse);
-    });
-  });
-
-  group('get and insert game', () {
-    test(
-      'should return List<GameModel> from the database when there is data present',
+      'should return List<GameModel> from database when there is data in the cache',
       () async {
-        //arrange
-        when(localDataSource.getGames()).thenAnswer((_) async => gameList);
-        verifyNever(localDataSource.getGames());
-        //act
-        final result = await localDataSource.getGames();
-        //assert
+        // arrange
+        when(mockDatabaseHelper.getGames())
+            .thenAnswer((_) async => gameList.map((e) => e.toJson()).toList());
+        // act
+        final result = await dataSource.getGames();
+        // assert
+        verify(mockDatabaseHelper.getGames());
         expect(result, gameList);
-        verify(localDataSource.getGames());
       },
     );
 
     test(
-      'should insert GameModel into the database',
+      'should throw CacheException when there is no data in the cache',
       () async {
         // arrange
-        when(localDataSource.insertGame(gameModel)).thenAnswer((_) async => 1);
-        //act
-        final result = await localDataSource.insertGame(gameModel);
-        //assert
-        expect(result, equals(1));
+        when(mockDatabaseHelper.getGames()).thenAnswer((_) async => []);
+        // act
+        final call = dataSource.getGames;
+        // assert
+        expect(() => call(), throwsA(isInstanceOf<CacheException>()));
+      },
+    );
+  });
+
+  group('insertGame', () {
+    final gameModel = GameModel(
+      name: 'Test name',
+      creationDatetime: DateTime.now().toString(),
+    );
+
+    test(
+      'should call insertGame on database helper with the given game',
+      () async {
+        // arrange
+        when(mockDatabaseHelper.insertGame(gameModel))
+            .thenAnswer((_) async => 1);
+        // act
+        final result = await dataSource.insertGame(gameModel);
+        // assert
+        verify(mockDatabaseHelper.insertGame(gameModel));
+        expect(result, 1);
+      },
+    );
+
+    test(
+      'should throw CacheException when insertGame on database helper throws an exception',
+      () async {
+        // arrange
+        when(mockDatabaseHelper.insertGame(gameModel)).thenThrow(Exception());
+        // act
+        final call = dataSource.insertGame;
+        // assert
+        expect(() => call(gameModel), throwsA(isInstanceOf<CacheException>()));
       },
     );
   });
