@@ -3,5 +3,5 @@ import 'package:gamemark/app/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp(env: 'Dev'));
+  runApp(const Gamemark(env: 'Dev'));
 }
