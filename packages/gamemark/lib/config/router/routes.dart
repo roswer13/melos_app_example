@@ -7,6 +7,6 @@ final routes = [
     path: '/',
     name: RoutesName.home,
     parentNavigatorKey: RoutesConfig.navigationKey,
-    builder: (context, state) => const HomePage(),
+    builder: (context, state) => const MainPage(),
   )
 ];
